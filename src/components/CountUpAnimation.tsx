@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from './ThemeProvider';
 
 interface CountUpAnimationProps {
   end: number;
@@ -11,6 +12,7 @@ interface CountUpAnimationProps {
 const CountUpAnimation = ({ end, duration = 2000, startDelay = 0 }: CountUpAnimationProps) => {
   const [count, setCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     if (!hasStarted) return;
@@ -39,7 +41,7 @@ const CountUpAnimation = ({ end, duration = 2000, startDelay = 0 }: CountUpAnima
 
   return (
     <motion.span
-      className="text-4xl font-bold text-white block"
+      className={`text-2xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} block`}
       initial={{ opacity: 0, scale: 0.5 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
