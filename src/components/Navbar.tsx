@@ -22,6 +22,7 @@ const Navbar = () => {
     { name: 'Explore', href: '#explore' },
     { name: 'Stats', href: '#stats' },
     { name: 'Journey', href: '#journey' },
+    { name: 'Testimonials', href: '#testimonials' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -34,7 +35,7 @@ const Navbar = () => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/10 dark:bg-black/20 backdrop-blur-md border-b border-white/10'
+          ? `${isDark ? 'bg-black/20' : 'bg-white/20'} backdrop-blur-md border-b ${isDark ? 'border-white/10' : 'border-black/10'}`
           : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
@@ -44,7 +45,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <motion.div
-            className="text-2xl font-bold text-white"
+            className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-black'} transition-colors duration-300`}
             whileHover={{ scale: 1.05 }}
           >
             Earth<span className="text-blue-400">Explore</span>
@@ -57,7 +58,7 @@ const Navbar = () => {
                 <motion.button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-white hover:text-blue-400 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                  className={`${isDark ? 'text-white hover:text-blue-400' : 'text-black hover:text-blue-600'} px-3 py-2 text-sm font-medium transition-colors duration-200`}
                   whileHover={{ y: -2 }}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -70,21 +71,59 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            {/* Theme Toggle */}
-            <motion.button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            {/* Enhanced Theme Toggle */}
+            <motion.div
+              className={`relative p-1 rounded-full ${isDark ? 'bg-white/10' : 'bg-black/10'} backdrop-blur-sm transition-all duration-300`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
+              <motion.button
+                onClick={toggleTheme}
+                className={`relative p-3 rounded-full ${isDark ? 'bg-blue-600 text-white' : 'bg-yellow-400 text-black'} transition-all duration-500 shadow-lg`}
+                animate={{
+                  rotate: isDark ? 0 : 180,
+                  backgroundColor: isDark ? '#2563eb' : '#fbbf24'
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: isDark ? 0 : 180 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {isDark ? <Moon size={20} /> : <Sun size={20} />}
+                </motion.div>
+                
+                {/* Glow effect */}
+                <motion.div
+                  className={`absolute inset-0 rounded-full ${isDark ? 'bg-blue-400' : 'bg-yellow-300'} blur-md opacity-30`}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </motion.button>
+              
+              {/* Theme label */}
+              <motion.span
+                className={`absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs ${isDark ? 'text-white' : 'text-black'} font-medium whitespace-nowrap`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                {isDark ? 'Dark Mode' : 'Light Mode'}
+              </motion.span>
+            </motion.div>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white hover:text-blue-400 p-2"
+                className={`${isDark ? 'text-white hover:text-blue-400' : 'text-black hover:text-blue-600'} p-2 transition-colors duration-200`}
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -95,7 +134,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <motion.div
-        className={`md:hidden bg-black/90 backdrop-blur-md ${isOpen ? 'block' : 'hidden'}`}
+        className={`md:hidden ${isDark ? 'bg-black/90' : 'bg-white/90'} backdrop-blur-md ${isOpen ? 'block' : 'hidden'} transition-all duration-300`}
         initial={{ opacity: 0, height: 0 }}
         animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? 'auto' : 0 }}
       >
@@ -104,7 +143,7 @@ const Navbar = () => {
             <button
               key={item.name}
               onClick={() => scrollToSection(item.href)}
-              className="block text-white hover:text-blue-400 px-3 py-2 text-base font-medium w-full text-left"
+              className={`block ${isDark ? 'text-white hover:text-blue-400' : 'text-black hover:text-blue-600'} px-3 py-2 text-base font-medium w-full text-left transition-colors duration-200`}
             >
               {item.name}
             </button>

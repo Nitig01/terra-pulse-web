@@ -6,6 +6,7 @@ import Hero from '../components/Hero';
 import ParallaxSection from '../components/ParallaxSection';
 import StatsSection from '../components/StatsSection';
 import ExploreSection from '../components/ExploreSection';
+import TestimonialSection from '../components/TestimonialSection';
 import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import ThemeProvider from '../components/ThemeProvider';
@@ -39,6 +40,9 @@ const Index = () => {
             <ParallaxSection />
             <StatsSection />
             <ExploreSection />
+            <div id="testimonials">
+              <TestimonialSection />
+            </div>
             <Footer />
           </motion.div>
         )}
