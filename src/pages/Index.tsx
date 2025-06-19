@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
@@ -10,6 +9,8 @@ import TestimonialSection from '../components/TestimonialSection';
 import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import ThemeProvider from '../components/ThemeProvider';
+import CursorFollower from '../components/CursorFollower';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +26,9 @@ const Index = () => {
   return (
     <ThemeProvider>
       <div className="relative overflow-x-hidden">
+        <CursorFollower />
+        <AnimatedBackground />
+        
         <AnimatePresence>
           {isLoading && <Loader />}
         </AnimatePresence>
