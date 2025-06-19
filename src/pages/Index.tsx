@@ -1,13 +1,49 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import ParallaxSection from '../components/ParallaxSection';
+import StatsSection from '../components/StatsSection';
+import ExploreSection from '../components/ExploreSection';
+import Footer from '../components/Footer';
+import Loader from '../components/Loader';
+import ThemeProvider from '../components/ThemeProvider';
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <ThemeProvider>
+      <div className="relative overflow-x-hidden">
+        <AnimatePresence>
+          {isLoading && <Loader />}
+        </AnimatePresence>
+        
+        {!isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Navbar />
+            <Hero />
+            <ParallaxSection />
+            <StatsSection />
+            <ExploreSection />
+            <Footer />
+          </motion.div>
+        )}
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
